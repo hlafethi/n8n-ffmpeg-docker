@@ -11,9 +11,9 @@ FROM n8nio/n8n:${N8N_VERSION}
 USER root
 
 # Installation de ffmpeg et des dependances
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Retour a l'utilisateur node pour la securite
 USER node
