@@ -39,8 +39,8 @@ jobs:
           build-args: |
             N8N_VERSION=${{ steps.n8n_version.outputs.version }}
           tags: |
-            fethla/n8n-ffmpeg:latest
-            fethla/n8n-ffmpeg:${{ steps.n8n_version.outputs.version }}
+            fethi/n8n-ffmpeg:latest
+            fethi/n8n-ffmpeg:${{ steps.n8n_version.outputs.version }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
