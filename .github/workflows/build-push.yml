@@ -36,6 +36,7 @@ jobs:
         with:
           context: .
           push: true
+                  pull: true
           build-args: |
             N8N_VERSION=${{ steps.n8n_version.outputs.version }}
           tags: |
