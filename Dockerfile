@@ -1,17 +1,24 @@
 # Dockerfile pour n8n avec ffmpeg
 # Mise à jour automatique via GitHub Actions
+# Utilise un build multi-stage pour installer ffmpeg
 
 # Argument pour spécifier la version de n8n (par défaut: latest)
 ARG N8N_VERSION=latest
 
-# Image de base: n8n officiel
+# Stage 1: Image Alpine pour installer ffmpeg
+FROM alpine:latest AS ffmpeg-builder
+RUN apk add --no-cache ffmpeg
+
+# Stage 2: Image n8n finale
 FROM n8nio/n8n:${N8N_VERSION}
 
-# Passer en root pour installer les paquets
+# Passer en root pour copier ffmpeg
 USER root
 
-# Installation de ffmpeg et des dépendances
-RUN apk add --no-cache ffmpeg
+# Copier ffmpeg et ses dépendances depuis le builder
+COPY --from=ffmpeg-builder /usr/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=ffmpeg-builder /usr/bin/ffprobe /usr/local/bin/ffprobe
+COPY --from=ffmpeg-builder /usr/lib /usr/lib
 
 # Retour à l'utilisateur node pour la sécurité
 USER node
